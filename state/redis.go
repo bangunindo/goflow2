@@ -29,7 +29,7 @@ const (
 )
 
 func (r *redisState[K, V]) populate() error {
-	iter := r.db.Scan(r.ctx, 0, "*", 0).Iterator()
+	iter := r.db.Scan(r.ctx, 0, fmt.Sprintf("%s*", r.rPrefix), 0).Iterator()
 	for iter.Next(r.ctx) {
 		kRaw := iter.Val()
 		res := r.db.Get(r.ctx, kRaw)
