@@ -57,20 +57,25 @@ func (r *redisState[K, V]) populate() error {
 }
 
 func (r *redisState[K, V]) init() error {
-	r.rPrefix = r.urlParsed.Query().Get("prefix")
+	q := r.urlParsed.Query()
+	r.rPrefix = q.Get("prefix")
 	if r.rPrefix == "" {
 		return fmt.Errorf("'prefix' name is required on redis state engine, place it on your URL query string")
 	}
+	q.Del("prefix")
+	interval := q.Get("interval")
+	if interval == "" {
+		interval = "900"
+	}
+	q.Del("interval")
+	r.urlParsed.RawQuery = q.Encode()
+	var err error
+	r.refreshInterval, err = strconv.Atoi(interval)
 	opts, err := redis.ParseURL(r.urlParsed.String())
 	if err != nil {
 		return err
 	}
 	r.db = redis.NewClient(opts)
-	interval := r.urlParsed.Query().Get("interval")
-	if interval == "" {
-		interval = "900"
-	}
-	r.refreshInterval, err = strconv.Atoi(interval)
 	if err != nil {
 		return err
 	}
