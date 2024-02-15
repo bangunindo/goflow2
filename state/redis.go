@@ -71,6 +71,9 @@ func (r *redisState[K, V]) init() error {
 	r.urlParsed.RawQuery = q.Encode()
 	var err error
 	r.refreshInterval, err = strconv.Atoi(interval)
+	if err != nil {
+		return err
+	}
 	opts, err := redis.ParseURL(r.urlParsed.String())
 	if err != nil {
 		return err
