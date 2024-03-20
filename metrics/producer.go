@@ -1,7 +1,6 @@
 package metrics
 
 import (
-	protoproducer "github.com/netsampler/goflow2/v2/producer/proto"
 	"net/netip"
 
 	"github.com/netsampler/goflow2/v2/decoders/netflow"
