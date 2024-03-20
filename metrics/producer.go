@@ -8,6 +8,7 @@ import (
 	"github.com/netsampler/goflow2/v2/decoders/netflowlegacy"
 	"github.com/netsampler/goflow2/v2/decoders/sflow"
 	"github.com/netsampler/goflow2/v2/producer"
+	"github.com/netsampler/goflow2/v2/producer/proto"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
